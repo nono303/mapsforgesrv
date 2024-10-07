@@ -213,20 +213,13 @@ public class MapsforgeTaskHandler {
 			hillsRenderConfig.indexOnThread();
 		}
 
-		if (mapsforgeTaskConfig.getRendererName().equals("direct")) {
-			directRenderer = new HashMap<String, DirectRenderer>();
-			if (hillsRenderConfig != null)
-				directRenderer.put("hs",
-						new DirectRenderer(multiMapDataStore, mapsforgeHandler.getGraphicFactory(), renderLabels, hillsRenderConfig));
-			directRenderer.put("std", new DirectRenderer(multiMapDataStore, mapsforgeHandler.getGraphicFactory(), renderLabels, null));
-		} else {
-			databaseRenderer = new HashMap<String, DatabaseRenderer>();
-			if (hillsRenderConfig != null)
-				databaseRenderer.put("hs", new DatabaseRenderer(multiMapDataStore, mapsforgeHandler.getGraphicFactory(), tileCache,
-						labelStore, renderLabels, cacheLabels, hillsRenderConfig));
-			databaseRenderer.put("std", new DatabaseRenderer(multiMapDataStore, mapsforgeHandler.getGraphicFactory(), tileCache,
-					labelStore, renderLabels, cacheLabels, null));
-		}
+
+		databaseRenderer = new HashMap<String, DatabaseRenderer>();
+		if (hillsRenderConfig != null)
+			databaseRenderer.put("hs", new DatabaseRenderer(multiMapDataStore, mapsforgeHandler.getGraphicFactory(), tileCache,
+					labelStore, renderLabels, cacheLabels, hillsRenderConfig));
+		databaseRenderer.put("std", new DatabaseRenderer(multiMapDataStore, mapsforgeHandler.getGraphicFactory(), tileCache,
+				labelStore, renderLabels, cacheLabels, null));
 
 		XmlRenderThemeMenuCallback callBack = new XmlRenderThemeMenuCallback() {
 
