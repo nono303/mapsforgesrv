@@ -38,6 +38,7 @@ import org.mapsforge.map.layer.hills.HiResStandardClasyHillShading;
 import org.mapsforge.map.layer.hills.HillsRenderConfig;
 import org.mapsforge.map.layer.hills.MemoryCachingHgtReaderTileSource;
 import org.mapsforge.map.layer.hills.ShadingAlgorithm;
+import org.mapsforge.map.layer.hills.SimpleClasyHillShading;
 import org.mapsforge.map.layer.hills.SimpleShadingAlgorithm;
 import org.mapsforge.map.layer.hills.StandardClasyHillShading;
 import org.mapsforge.map.layer.labels.TileBasedLabelStore;
@@ -221,7 +222,7 @@ public class MapsforgeTaskHandler {
 				     */
 					(float) mapsforgeTaskConfig.getHillShadingArguments()[0]	
 				);
-			} else if (mapsforgeTaskConfig.getHillShadingAlgorithm().equals("standard") || mapsforgeTaskConfig.getHillShadingAlgorithm().equals("hires")) {
+			} else if (mapsforgeTaskConfig.getHillShadingAlgorithm().equals("stdasy") || mapsforgeTaskConfig.getHillShadingAlgorithm().equals("hiresasy") || mapsforgeTaskConfig.getHillShadingAlgorithm().equals("simplasy")) {
 				Builder clasyBuilder = new ClasyParams.Builder();
 	            /**
 	             * @param minSlope The largest slope that will have the lightest shade.
@@ -274,9 +275,17 @@ public class MapsforgeTaskHandler {
 	             *                    The default is {@code false}.
 	             */
 				clasyBuilder.setHighQuality(mapsforgeTaskConfig.getHillShadingArguments()[5] == 1 ? true : false);
-				shadingAlgorithm = mapsforgeTaskConfig.getHillShadingAlgorithm().equals("standard") ? 
-						new StandardClasyHillShading(clasyBuilder.build()) : 
-						new HiResStandardClasyHillShading(clasyBuilder.build());
+				switch(mapsforgeTaskConfig.getHillShadingAlgorithm()){
+				case "hiresasy": 
+					shadingAlgorithm = new HiResStandardClasyHillShading(clasyBuilder.build());
+					break;
+				case "stdasy": 
+					shadingAlgorithm = new StandardClasyHillShading(clasyBuilder.build()); 
+			           break;
+				case "simplasy": 
+					shadingAlgorithm = new SimpleClasyHillShading(clasyBuilder.build()); 
+			           break;
+				}
 			} else {
 				throw new Exception("Unknown HillShadingAlgorithm '"+mapsforgeTaskConfig.getHillShadingAlgorithm()+"'");
 			}
@@ -382,6 +391,7 @@ public class MapsforgeTaskHandler {
 	}
 
 	protected void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		long startTime = System.nanoTime();
 		String path = request.getPathInfo();
 		String engine = "std";
 
@@ -462,7 +472,10 @@ public class MapsforgeTaskHandler {
 			} catch (Exception e) {
 				throw new ServletException("Failed to parse \"hillshading\" property: " + e.getMessage(), e); //$NON-NLS-1$
 			}
-			if (hillsRenderConfig != null && enable_hs) engine = "hs";
+			if (hillsRenderConfig != null && enable_hs) {
+				engine = "hs";
+				response.addHeader("X-Hillshading", mapsforgeTaskConfig.getHillShadingName());
+			}
 
 			// requestedUserScale = 2.0f; // Uncomment for testing purpose only!
 //			Calling "displayModel.setUserScaleFactor" alone has no visible impact on rendering.
@@ -542,6 +555,7 @@ public class MapsforgeTaskHandler {
 		int bufferSize = 256 + 4*image.getWidth()*image.getHeight(); // Assume image data size <= bufferSize
 		MyResponseBufferOutputStream responseBufferStream = new MyResponseBufferOutputStream(bufferSize);
 		ImageIO.write(image, ext, responseBufferStream);
+		response.addHeader("X-HandleTime", String.valueOf(Math.round(((System.nanoTime() - startTime)/1000000 ))));
 		responseBufferStream.flush(response);
 		responseBufferStream.close();
 	}
