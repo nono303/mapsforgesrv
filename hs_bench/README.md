@@ -16,7 +16,7 @@
   - **hiresasy**: [HiResStandardClasyHillShading](https://github.com/mapsforge/mapsforge/blob/master/mapsforge-map/src/main/java/org/mapsforge/map/layer/hills/HiResStandardClasyHillShading.java) - _Clear asymmetry_
 - for **Clear asymmetry** 
   -  `highQuality` param for **Clear asymmetry** algorithm
-    - :warning: **hiresasy** + `highQuality = false` produce bad visual
+    - :warning: **hiresasy** + `highQuality = false` produce bad visual  
     ![nono](./hillshade_compare/hr_x-lq.png)
     - **stdasy** with `highQuality = false` or `highQuality = true` produce same visual results without time rendering difference. 
     - :fast_forward: Using `highQuality = true` for bench
@@ -28,7 +28,7 @@
 
 ## Results
 
-![nono](./hillshade_compare/nono.png)
+![nono](./hillshade_compare/nono.png)  
 `/14/8557/5822`
 
 | algorithm    | rendering *(ms)* |
