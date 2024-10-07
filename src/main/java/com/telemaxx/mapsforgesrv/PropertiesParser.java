@@ -70,7 +70,8 @@ public abstract class PropertiesParser {
 	// MapsforgeTaskConfig.hillShadingArguments
 	public final static double[] 	DEFAULT_HILLSHADING_SIMPLE = { 0.1, 0.666 };
 	public final static	double 		DEFAULT_HILLSHADING_DIFFUSELIGHT = 50;
-	// MapsforgeTaskConfig.hillShadingMagnitude
+	public final static	double[] 	DEFAULT_HILLSHADING_CLASY = { 0.5, 0, 80, 8, 8, 1 };
+	// MapsforgeTaskConfig.hillShadingMagnitude	
 	protected final static double 	DEFAULT_HILLSHADING_MAGNITUDE = 1.;
 
 	/***********
