@@ -42,7 +42,6 @@ import org.mapsforge.map.layer.hills.SimpleShadingAlgorithm;
 import org.mapsforge.map.layer.hills.StandardClasyHillShading;
 import org.mapsforge.map.layer.labels.TileBasedLabelStore;
 import org.mapsforge.map.layer.renderer.DatabaseRenderer;
-import org.mapsforge.map.layer.renderer.DirectRenderer;
 import org.mapsforge.map.layer.renderer.RendererJob;
 import org.mapsforge.map.model.DisplayModel;
 import org.mapsforge.map.reader.MapFile;
@@ -85,7 +84,6 @@ public class MapsforgeTaskHandler {
 	private int[] colorLookupTable = null;
 	private String name;
 	private Map<String, DatabaseRenderer> databaseRenderer = null;
-	private Map<String, DirectRenderer> directRenderer = null;
 
 	private MapsforgeHandler mapsforgeHandler;
 	private MapsforgeConfig mapsforgeConfig;
@@ -480,11 +478,8 @@ public class MapsforgeTaskHandler {
 
 //Synchronizing render jobs has no visible effect -> disabled
 //				synchronized (this) {
-				if (directRenderer != null) {
-					tileBitmap = directRenderer.get(engine).executeJob(job);
-				} else {
-					tileBitmap = databaseRenderer.get(engine).executeJob(job);
-				}
+
+				tileBitmap = databaseRenderer.get(engine).executeJob(job);
 				if (!hillShadingOverlay) tileCache.put(job, null);
 //				}
 		}
