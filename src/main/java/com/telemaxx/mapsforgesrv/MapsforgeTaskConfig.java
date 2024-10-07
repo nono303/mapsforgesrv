@@ -29,6 +29,7 @@ public class MapsforgeTaskConfig extends PropertiesParser{
 	private float lineScale;
 	protected double[] hillShadingArguments;
 	protected String hillShadingAlgorithm = null;
+	protected String hillShadingAlgorithmName = null;
 	protected double hillShadingMagnitude;
 	private int blackValue;
 	private double gammaValue;
@@ -144,7 +145,7 @@ public class MapsforgeTaskConfig extends PropertiesParser{
 		String hillShadingOption = retrieveConfigValue("hillshading-algorithm"); //$NON-NLS-1$
 		if (hillShadingOption != null) {
 			hillShadingOption = hillShadingOption.trim();
-			Pattern P = Pattern.compile("(simple)(?:\\((\\d+\\.?\\d*|\\d*\\.?\\d+),(\\d+\\.?\\d*|\\d*\\.?\\d+)\\))?|(diffuselight)(?:\\((\\d+\\.?\\d*|\\d*\\.?\\d+)\\))?|(hires|standard)(?:\\((\\d+\\.?\\d*|\\d*\\.?\\d+),(\\d+\\.?\\d*|\\d*\\.?\\d+),(\\d+\\.?\\d*|\\d*\\.?\\d+),(\\d+),(\\d+),(true|false)\\))?");
+			Pattern P = Pattern.compile("(simple)(?:\\((-?\\d+\\.?\\d*|-?\\d*\\.?\\d+),(\\d+\\.?\\d*|\\d*\\.?\\d+)\\))?|(diffuselight)(?:\\((\\d+\\.?\\d*|\\d*\\.?\\d+)\\))?|(hiresasy|stdasy|simplasy)(?:\\((\\d+\\.?\\d*|\\d*\\.?\\d+),(\\d+\\.?\\d*|\\d*\\.?\\d+),(\\d+\\.?\\d*|\\d*\\.?\\d+),(\\d+),(\\d+),(true|false)\\))?");
 			Matcher m = P.matcher(hillShadingOption);
 			if (m.matches()) {
 				if (m.group(1) != null) {
@@ -157,7 +158,7 @@ public class MapsforgeTaskConfig extends PropertiesParser{
 						hillShadingArguments[0] = DEFAULT_HILLSHADING_SIMPLE[0];
 						hillShadingArguments[1] = DEFAULT_HILLSHADING_SIMPLE[1];
 					}
-					logger.info(msgHeader + ": defined [" + hillShadingAlgorithm + "(" + hillShadingArguments[0] + "," + hillShadingArguments[1] + ")]");	//$NON-NLS-3$
+					hillShadingAlgorithmName = hillShadingAlgorithm + "(linearity: " + hillShadingArguments[0] + ", scale: " + hillShadingArguments[1] + ")";
 				} else if (m.group(4) != null) {
 					hillShadingAlgorithm = new String(m.group(4)); // ShadingAlgorithm = diffuselight
 					hillShadingArguments = new double[1];
@@ -166,7 +167,7 @@ public class MapsforgeTaskConfig extends PropertiesParser{
 					} else { // default value
 						hillShadingArguments[0] = DEFAULT_HILLSHADING_DIFFUSELIGHT;
 					}
-					logger.info(msgHeader + ": defined [" + hillShadingAlgorithm + "(" + hillShadingArguments[0] + ")]"); //$NON-NLS-1$
+					hillShadingAlgorithmName = hillShadingAlgorithm + "(heightAngle: " + (int)hillShadingArguments[0] + ")";
 				} else if (m.group(6) != null) {
 					hillShadingAlgorithm = new String(m.group(6)); // ShadingAlgorithm = standard || hires
 					hillShadingArguments = new double[6];
@@ -185,10 +186,17 @@ public class MapsforgeTaskConfig extends PropertiesParser{
 						hillShadingArguments[4] = DEFAULT_HILLSHADING_CLASY[4];
 						hillShadingArguments[5] = DEFAULT_HILLSHADING_CLASY[5];
 					}
-					logger.info(msgHeader + ": defined [" + hillShadingAlgorithm + "(" + hillShadingArguments[0] + "," + hillShadingArguments[1] + "," + hillShadingArguments[2] + "," + hillShadingArguments[3] + "," + hillShadingArguments[4] + "," + hillShadingArguments[5] + ")]");	//$NON-NLS-3$
+					hillShadingAlgorithmName = hillShadingAlgorithm + "(asymmetryFactor: " + hillShadingArguments[0] + 
+							", minSlope: " + (int)hillShadingArguments[1] +
+							", maxSlope: " + (int)hillShadingArguments[2] +
+							", readingThreadsCount: " + (int)hillShadingArguments[3] +
+							", computingThreadsCount: " + (int)hillShadingArguments[4] +
+							", highQuality: " + (hillShadingArguments[5] == 1 ? "true" : "false") +
+							")";
 				} else {
 					parseError(msgHeader, "'" + hillShadingOption + "' invalid", "undefined");
 				}
+				logger.info(msgHeader + ": defined [" + hillShadingAlgorithmName +"]");	//$NON-NLS-3$
 			} else {
 				parseError(msgHeader, "'" + hillShadingOption + "' invalid", "undefined");
 			}
@@ -221,6 +229,10 @@ public class MapsforgeTaskConfig extends PropertiesParser{
 
 	public double[] getHillShadingArguments() {
 		return this.hillShadingArguments;
+	}
+	
+	public String getHillShadingName() {
+		return this.hillShadingAlgorithmName;
 	}
 
 	public String getThemeFileStyle() {
