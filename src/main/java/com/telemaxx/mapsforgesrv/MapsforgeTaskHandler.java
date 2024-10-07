@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.eclipse.jetty.server.Request;
 import org.mapsforge.core.graphics.TileBitmap;
 import org.mapsforge.core.model.Tile;
@@ -456,9 +457,10 @@ public class MapsforgeTaskHandler {
 		if (multiMapDataStore.supportsTile(tile)) {
 			boolean enable_hs = true;
 			try {
-				String tmp = request.getParameter("hillshading"); //$NON-NLS-1$
+				String atmp[] = {request.getParameter("hillshading"),request.getParameter("hs")}; //$NON-NLS-1$
+				String tmp = ObjectUtils.firstNonNull(atmp);
 				if (tmp != null)
-					enable_hs = Integer.parseInt(request.getParameter("hillshading")) != 0; //$NON-NLS-1$
+					enable_hs = Integer.parseInt(tmp) != 0; //$NON-NLS-1$
 			} catch (Exception e) {
 				throw new ServletException("Failed to parse \"hillshading\" property: " + e.getMessage(), e); //$NON-NLS-1$
 			}
