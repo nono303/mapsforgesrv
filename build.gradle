@@ -4,7 +4,7 @@ plugins {
     // https://github.com/johnrengelman/shadow/releases
     id 'com.gradleup.shadow' version "8.3.3"
     // https://github.com/nebula-plugins/gradle-lint-plugin/releases
-    id "nebula.lint" version "20.0.0"
+    id "nebula.lint" version "20.1.0"
 }
 
 eclipse {
