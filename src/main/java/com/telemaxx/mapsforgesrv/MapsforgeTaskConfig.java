@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 public class MapsforgeTaskConfig extends PropertiesParser{
 
-	private String rendererName = null;
 	private ArrayList<File> mapFiles = null;
 	private boolean appendWorldMap;
 	private String preferredLanguage = null;
@@ -108,7 +107,7 @@ public class MapsforgeTaskConfig extends PropertiesParser{
 				mapFilesString = mapFiles.stream().map(File::getPath).collect(Collectors.joining(","));
 				String cnxNotAuth = "{" + mapsErr.stream().map(File::getPath).collect(Collectors.joining(",")) + "} not existing"; //$NON-NLS-2$ //$NON-NLS-3$
 				if (mapFilePaths.length == 0) {
-					parseError(msgHeader, cnxNotAuth, "{" + mapFilesString + "}");
+					parseError(msgHeader, cnxNotAuth);
 				} else {
 					logger.info(msgHeader + ": defined [{" + mapFilesString + "}] - warn " + cnxNotAuth); //$NON-NLS-1$
 				}
@@ -122,7 +121,7 @@ public class MapsforgeTaskConfig extends PropertiesParser{
 
 	private void initConfig() throws Exception {
 		logger.info("################ TASK '"+taskName+"' PROPERTIES ################");
-		rendererName = parseString(DEFAULT_RENDERER, "renderer", AUTHORIZED_RENDERER, "Renderer algorithm"); //$NON-NLS-1$ //$NON-NLS-2$
+		parseResetError();
 		parseMapFiles();
 		appendWorldMap = parseHasOption("worldmap", "Append built-in world map");
 		preferredLanguage = parseString(null, "language", null, "Preferred map language"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -139,6 +138,10 @@ public class MapsforgeTaskConfig extends PropertiesParser{
 		textScale = (float) parseNumber(DEFAULT_TEXTSCALE, "text-scale", 0., null, "Text scale factor",true); //$NON-NLS-1$ //$NON-NLS-2$
 		symbolScale = (float) parseNumber(DEFAULT_SYMBOLSCALE, "symbol-scale", 0., null, "Symbol scale factor",true); //$NON-NLS-1$ //$NON-NLS-2$
 		lineScale = (float) parseNumber(DEFAULT_LINESCALE, "line-scale", 0., null, "Line scale factor",true); //$NON-NLS-1$ //$NON-NLS-2$
+		if (parseGetError()) {
+			logger.error("Properties parsing error(s) - task '" + taskName + "' disabled"); //$NON-NLS-1$
+			checkSum = null;
+		}
 	}
 
 	private void parseHillShading() throws Exception {
@@ -173,13 +176,9 @@ public class MapsforgeTaskConfig extends PropertiesParser{
 				}
 				logger.info(msgHeader + ": defined [" + hillShadingAlgorithmName +"]");	//$NON-NLS-3$
 			} else {
-				parseError(msgHeader, "'" + hillShadingOption + "' invalid", "undefined");
+				parseError(msgHeader, "'" + hillShadingOption + "' invalid");
 			}
 		}
-	}
-
-	public String getRendererName() {
-		return this.rendererName;
 	}
 
 	public List<File> getMapFiles() {
