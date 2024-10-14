@@ -19,7 +19,6 @@ import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.eclipse.jetty.server.Request;
 import org.mapsforge.core.graphics.TileBitmap;
 import org.mapsforge.core.model.Tile;
@@ -184,90 +183,25 @@ public class MapsforgeTaskHandler {
 		displayModel = new DisplayModel();
 		displayModel.setUserScaleFactor(mapsforgeTaskConfig.getUserScale());
 
-		/*
-		 * HILLSHADING
-		 */
-		if (mapsforgeTaskConfig.getHillShadingAlgorithm() != null && mapsforgeTaskConfig.getDemFolder() != null) {
+		if (mapsforgeTaskConfig.getHillShadingAlgorithm() != null && mapsforgeTaskConfig.getDemFolder() != null) { // hillshading
 			if (mapsforgeTaskConfig.getHillShadingAlgorithm().equals("simple")) {
-				shadingAlgorithm = new SimpleShadingAlgorithm(
-					/**
-					 * @param linearity 1 or higher for linear grade, 0 or lower for a triple-applied
-				     *                  sine of grade that gives high emphasis on changes in slope in
-				     *                  near-flat areas, but reduces details within steep slopes
-				     *                  (default 0.1)
-				     */
-					mapsforgeTaskConfig.getHillShadingArguments()[0],
-				    /**
-				     * @param scale     scales the input slopes, with lower values slopes will saturate later, but nuances closer to flat will suffer
-				     *                  (default: 0.666d)
-				     */
-					mapsforgeTaskConfig.getHillShadingArguments()[1]
-				);
+				shadingAlgorithm = new SimpleShadingAlgorithm(mapsforgeTaskConfig.getHillShadingArguments()[0],
+						mapsforgeTaskConfig.getHillShadingArguments()[1]);
 			} else if (mapsforgeTaskConfig.getHillShadingAlgorithm().equals("diffuselight")) {
 				shadingAlgorithm = new DiffuseLightShadingAlgorithm(
-				    /**
-				     * @param heightAngle	height angle of light source over ground (in degrees 0..90)
-				     *						(default: 50f)
-				     */
-					(float) mapsforgeTaskConfig.getHillShadingArguments()[0]	
-				);
+						(float) mapsforgeTaskConfig.getHillShadingArguments()[0]);
 			} else if (mapsforgeTaskConfig.getHillShadingAlgorithm().equals("stdasy") || mapsforgeTaskConfig.getHillShadingAlgorithm().equals("hiresasy") || mapsforgeTaskConfig.getHillShadingAlgorithm().equals("simplasy")) {
 				Builder clasyBuilder = new ClasyParams.Builder();
-	            /**
-	             * @param minSlope The largest slope that will have the lightest shade.
-	             *                 All smaller slopes will have the same shade, the lightest one.
-	             *                 Should be in the range [0..{@code maxSlope}>.
-	             *                 The default is 0 (zero).
-	             *                 [percentage, %]
-	             */
 				clasyBuilder.setMinSlope((float) mapsforgeTaskConfig.getHillShadingArguments()[1]);
-				/**
-	             * @param maxSlope The smallest slope that will have the darkest shade.
-	             *                 All larger slopes will have the same shade, the darkest one.
-	             *                 Should be larger than zero.
-	             *                 The default is 80.
-	             *                 [percentage, %]
-	             */
 				clasyBuilder.setMaxSlope((float) mapsforgeTaskConfig.getHillShadingArguments()[2]);
-	            /**
-	             * @param asymmetryFactor Number in the range [0..1].
-	             *                        When 1 the reference direction (NW by default) slopes will get minimal shading (max asymmetry effect),
-	             *                        when 0 the shading will be symmetrical in all directions (no asymmetry effect).
-	             *                        Any value larger than 0 will make the shading smoothly asymmetrical, with slopes closer to the reference direction
-	             *                        less shaded than slopes in the opposite direction as the factor increases.
-	             *                        The default is 0.5.
-	             */
 	            clasyBuilder.setAsymmetryFactor((float) mapsforgeTaskConfig.getHillShadingArguments()[0]);
-	            /**
-	             * @param readingThreadsCount Number of "producer" threads that will do the reading, >= 0.
-	             *                            Number N (>0) means there will be N additional threads (per caller thread) that will do the reading,
-	             *                            while 0 means that only the caller thread will do the reading.
-	             *                            The only time you'd want to set this to zero is when your data source does not support skipping,
-	             *                            ie. the data source is not a file and/or its {@link InputStream#skip(long)} is inefficient.
-	             *                            The default is 1.
-	             */
 	            clasyBuilder.setReadingThreadsCount((int) mapsforgeTaskConfig.getHillShadingArguments()[3]);
-	            /**
-	             * @param computingThreadsCount Number of "consumer" threads that will do the computations (per caller thread), >= 0.
-	             *                              Number M (>0) means there will be M additional threads (per caller thread) that will do the computing,
-	             *                              while 0 means that producer thread(s) will also do the computing.
-	             *                              The only times you'd want to set this to zero are when memory conservation is a top priority
-	             *                              or when you're running on a single-threaded system.
-	             *                              The default is 1.
-	             */
 				clasyBuilder.setComputingThreadsCount((int) mapsforgeTaskConfig.getHillShadingArguments()[4]);
-				/**
-	             * @param highQuality When {@code true}, a unit element is 4x4 data points in size instead of 2x2, for better interpolation capabilities.
-	             *                    To make use of this, you should override the
-	             *                    {@link #processOneUnitElement(double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, int, ComputingParams)}
-	             *                    method.
-	             *                    The default is {@code false}.
-	             */
 				clasyBuilder.setHighQuality(mapsforgeTaskConfig.getHillShadingArguments()[5] == 1 ? true : false);
 				switch(mapsforgeTaskConfig.getHillShadingAlgorithm()){
 				case "hiresasy": 
 					shadingAlgorithm = new HiResStandardClasyHillShading(clasyBuilder.build());
-					break;
+						break;
 				case "stdasy": 
 					shadingAlgorithm = new StandardClasyHillShading(clasyBuilder.build()); 
 			           break;
@@ -463,10 +397,9 @@ public class MapsforgeTaskHandler {
 		if (multiMapDataStore.supportsTile(tile)) {
 			boolean enable_hs = true;
 			try {
-				String atmp[] = {request.getParameter("hillshading"),request.getParameter("hs")}; //$NON-NLS-1$
-				String tmp = ObjectUtils.firstNonNull(atmp);
+				String tmp = request.getParameter("hillshading"); //$NON-NLS-1$
 				if (tmp != null)
-					enable_hs = Integer.parseInt(tmp) != 0; //$NON-NLS-1$
+					enable_hs = Integer.parseInt(request.getParameter("hillshading")) != 0; //$NON-NLS-1$
 			} catch (Exception e) {
 				throw new ServletException("Failed to parse \"hillshading\" property: " + e.getMessage(), e); //$NON-NLS-1$
 			}
