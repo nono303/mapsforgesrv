@@ -199,11 +199,11 @@ public class MapsforgeTaskConfig extends PropertiesParser{
 							", highQuality: " + (hillShadingArguments[5] == 1 ? "true" : "false") +
 							")";
 				} else {
-				parseError(msgHeader, "'" + hillShadingOption + "' invalid");
+					parseError(msgHeader, "'" + hillShadingOption + "' invalid");
 				}
 				logger.info(msgHeader + ": defined [" + hillShadingAlgorithmName +"]");	//$NON-NLS-3$
 			} else {
-				parseError(msgHeader, "'" + hillShadingOption + "' invalid", "undefined");
+				parseError(msgHeader, "'" + hillShadingOption + "' undefined");
 			}
 		}
 	}
