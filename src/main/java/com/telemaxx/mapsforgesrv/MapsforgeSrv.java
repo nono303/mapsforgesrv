@@ -101,7 +101,7 @@ public class MapsforgeSrv {
 		logger.info("################ STARTING SERVER ################");
 		XmlConfiguration xmlConfiguration = null;
 		QueuedThreadPool queuedThreadPool = new QueuedThreadPool();
-		Float jv = Float.parseFloat(System.getProperty("java.version"));
+		int jv = PropertiesParser.getMajorVersion();
 		if(Files.exists(Paths.get(mapsforgeConfig.getConfigDirectory()+MapsforgeConfig.FILECONFIG_JETTY_THREADPOOL_VR)) && jv >= 21) {
 			logger.info("Found "+mapsforgeConfig.getConfigDirectory()+MapsforgeConfig.FILECONFIG_JETTY_THREADPOOL_VR+" for JRE "+jv);
 			xmlConfiguration = new XmlConfiguration(Resource.newResource(mapsforgeConfig.getConfigDirectory()+MapsforgeConfig.FILECONFIG_JETTY_THREADPOOL_VR));
