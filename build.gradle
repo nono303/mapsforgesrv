@@ -2,9 +2,9 @@ plugins {
 	id "application"
 	id "eclipse"
 	// https://github.com/johnrengelman/shadow/releases
-	id 'com.gradleup.shadow' version "8.3.5"
+	id 'com.gradleup.shadow' version "9.0.0-beta4"
 	// https://github.com/nebula-plugins/gradle-lint-plugin/releases
-	id "nebula.lint" version "20.2.2"
+	id "nebula.lint" version "20.5.4"
 }
 
 eclipse {
@@ -17,7 +17,9 @@ eclipse {
 repositories {
 	mavenCentral()
 	// https://github.com/mapsforge/mapsforge/blob/master/docs/Integration.md
-	maven { url 'https://jitpack.io' }
+	maven {
+		url = 'https://jitpack.io'
+	}
 }
 
 sourceSets {
@@ -34,7 +36,7 @@ sourceSets {
 }
 
 dependencies {
-	def mapsforgeVersion = "0.23.0"
+	def mapsforgeVersion = "+"
 	// https://mvnrepository.com/artifact/org.eclipse.jetty.http2/http2-server
 	def jettyVersion = "11.0.24"
 	def slf4j = "+"
@@ -112,10 +114,10 @@ runShadow {
 	}
 }
 
-java {
+/*java {
 	toolchain {
 		languageVersion.set(JavaLanguageVersion.of(11))
 	}
-}
+}*/
 
 gradleLint.rules = ["all-dependency"]

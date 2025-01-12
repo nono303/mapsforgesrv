@@ -102,6 +102,7 @@ import org.eclipse.jetty.server.Slf4jRequestLogWriter;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.xml.XmlConfiguration;
+import org.mapsforge.map.layer.hills.AThreadedHillShading;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -127,7 +128,7 @@ public class MapsforgeSrv {
 
 		Runtime.Version runtimeVersion = Runtime.version();
 		logger.info("Java runtime version: " + runtimeVersion); //$NON-NLS-1$
-
+		logger.info("Available processors: " + AThreadedHillShading.AvailableProcessors); //$NON-NLS-1$
 		logger.debug("Current dir [user.dir]: " + System.getProperty("user.dir"));
 
 		memoryFileSystem = MemoryFileSystemBuilder.newEmpty().build();
