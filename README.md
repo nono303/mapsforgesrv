@@ -24,7 +24,7 @@ Run mapsforge tile server:
 	java -jar <Path>/mapsforgesrv-fatjar.jar -c <Configuration folder>
 
 Configuration requirements:
-* Configuration folder must contain a server configuration file `server.poperties` and a subfolder `tasks`.
+* Configuration folder must contain a server configuration file `server.properties` and a subfolder `tasks`.
 * Subfolder `tasks` can contain several task configuration files with file extension `.properties`.
 * Each task configuration files configures a separate server task to be processed concurrently.<br>While server is running, task files and thus tasks can be added, modified or deleted on the fly.
 * Case-sensitive server task name = task file name with file extension cut off.
@@ -34,7 +34,7 @@ Each configuration file can contain
 * Comment lines starting with character `#`
 * Separator lines containing white spaces only
 
-Server configuration file `server.poperties` recognizes the following parameters:
+Server configuration file `server.properties` recognizes the following parameters:
 
 | Name | Description |
 | ---- | ----------- |
@@ -95,6 +95,11 @@ URL example for requesting tiles from a task configured by the `Map.properties` 
 http://127.0.0.1:60815/14/8584/5595.png?task=Map
 ```
 <br>
+
+-------------
+### Build and distribution instructions
+- can be found in the [HOWTO](https://github.com/telemaxx/mapsforgesrv/blob/tasks/HOWTO.md)
+
 
 -------------
 ### Contributors
