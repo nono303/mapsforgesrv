@@ -2,9 +2,9 @@ plugins {
 	id "application"
 	id "eclipse"
 	// https://github.com/johnrengelman/shadow/releases
-	id 'com.gradleup.shadow' version "9.0.0-beta6"
+	id 'com.gradleup.shadow' version "9.0.0-beta9"
 	// https://github.com/nebula-plugins/gradle-lint-plugin/releases
-	id "nebula.lint" version "20.5.5"
+	id "nebula.lint" version "20.5.6"
 }
 
 eclipse {
