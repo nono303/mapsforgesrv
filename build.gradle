@@ -2,7 +2,7 @@ plugins {
 	id "application"
 	id "eclipse"
 	// https://github.com/johnrengelman/shadow/releases
-	id 'com.gradleup.shadow' version "9.0.0-beta9"
+	id 'com.gradleup.shadow' version "9.0.0-beta10"
 	// https://github.com/nebula-plugins/gradle-lint-plugin/releases
 	id "nebula.lint" version "20.5.6"
 }
@@ -36,7 +36,7 @@ sourceSets {
 }
 
 dependencies {
-	def mapsforgeVersion = "+"
+	def mapsforgeVersion = "0.24.1"
 	// https://mvnrepository.com/artifact/org.eclipse.jetty.http2/http2-server
 	def jettyVersion = "11.0.24"
 	def slf4j = "+"
