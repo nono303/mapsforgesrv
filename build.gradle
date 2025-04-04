@@ -2,7 +2,7 @@ plugins {
 	id "application"
 	id "eclipse"
 	// https://github.com/johnrengelman/shadow/releases
-	id 'com.gradleup.shadow' version "9.0.0-beta11"
+	id 'com.gradleup.shadow' version "9.0.0-beta12"
 	// https://github.com/nebula-plugins/gradle-lint-plugin/releases
 	id "nebula.lint" version "20.5.6"
 }
@@ -18,7 +18,6 @@ repositories {
 	mavenCentral()
 	// https://github.com/mapsforge/mapsforge/blob/master/docs/Integration.md
 	maven { url = 'https://jitpack.io' }
-	}
 }
 
 sourceSets {
@@ -35,21 +34,16 @@ sourceSets {
 }
 
 dependencies {
-	def mapsforgeVersion = "0.24.1"
+	def mapsforgeVersion = "0.25.0"
 	// https://mvnrepository.com/artifact/org.eclipse.jetty.http2/http2-server
 	def jettyVersion = "11.0.25"
 	def slf4j = "+"
 
-//	implementation "org.mapsforge:mapsforge-core:${mapsforgeVersion}"
-//	implementation "org.mapsforge:mapsforge-map-awt:${mapsforgeVersion}"
-//	implementation "org.mapsforge:mapsforge-map-reader:${mapsforgeVersion}"
-//	runtimeOnly    "org.mapsforge:mapsforge-themes:${mapsforgeVersion}"
-
-	implementation "com.github.mapsforge.mapsforge:mapsforge-core:${mapsforgeVersion}"
-	implementation "com.github.mapsforge.mapsforge:mapsforge-map:${mapsforgeVersion}"
-	implementation "com.github.mapsforge.mapsforge:mapsforge-map-awt:${mapsforgeVersion}"
-	implementation "com.github.mapsforge.mapsforge:mapsforge-map-reader:${mapsforgeVersion}"
-	runtimeOnly    "com.github.mapsforge.mapsforge:mapsforge-themes:${mapsforgeVersion}"
+	implementation "org.mapsforge:mapsforge-core:${mapsforgeVersion}"
+	implementation "org.mapsforge:mapsforge-map:${mapsforgeVersion}"
+	implementation "org.mapsforge:mapsforge-map-awt:${mapsforgeVersion}"
+	implementation "org.mapsforge:mapsforge-map-reader:${mapsforgeVersion}"
+	runtimeOnly    "org.mapsforge:mapsforge-themes:${mapsforgeVersion}"
 
 	implementation "org.eclipse.jetty:jetty-server:${jettyVersion}"
 	runtimeOnly    "org.eclipse.jetty.http2:http2-server:${jettyVersion}"
