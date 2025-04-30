@@ -2,9 +2,9 @@ plugins {
 	id "application"
 	id "eclipse"
 	// https://github.com/johnrengelman/shadow/releases
-	id 'com.gradleup.shadow' version "9.0.0-beta12"
+	id 'com.gradleup.shadow' version "9.0.0-beta13"
 	// https://github.com/nebula-plugins/gradle-lint-plugin/releases
-	id "nebula.lint" version "20.5.6"
+	id "nebula.lint" version "20.5.8"
 }
 
 eclipse {
@@ -34,7 +34,7 @@ sourceSets {
 }
 
 dependencies {
-	def mapsforgeVersion = "0.25.0"
+	def mapsforgeVersion = "+"
 	// https://mvnrepository.com/artifact/org.eclipse.jetty.http2/http2-server
 	def jettyVersion = "11.0.25"
 	def slf4j = "+"
@@ -84,7 +84,7 @@ runShadow {
 	doFirst {
 		jvmArgs = [
 			// https://github.com/bourgesl/marlin-renderer/releases
-			"--patch-module", "java.desktop=libs/marlin-0.9.4.8-Unsafe-OpenJDK11.jar",
+			"--patch-module", "java.desktop=libs/marlin-0.9.4.8-Unsafe-OpenJDK17.jar",
 			"-Dsun.java2d.d3d=true",
 			"-Dsun.java2d.opengl=false",
 			"-Dsun.java2d.accthreshold=0",
