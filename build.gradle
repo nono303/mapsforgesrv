@@ -2,9 +2,9 @@ plugins {
 	id "application"
 	id "eclipse"
 	// https://github.com/johnrengelman/shadow/releases
-	id 'com.gradleup.shadow' version "9.0.0-rc2"
+	id 'com.gradleup.shadow' version "9.1.0"
 	// https://github.com/nebula-plugins/gradle-lint-plugin/releases
-	id "nebula.lint" version "21.0.0"
+	id "nebula.lint" version "21.1.1"
 }
 
 eclipse {
@@ -34,16 +34,16 @@ sourceSets {
 }
 
 dependencies {
-	def mapsforgeVersion = "+"
+	def mapsforgeVersion = "0.26.1"
 	// https://mvnrepository.com/artifact/org.eclipse.jetty.http2/http2-server
-	def jettyVersion = "11.0.25"
+	def jettyVersion = "11.0.26"
 	def slf4j = "+"
 
-	implementation "org.mapsforge:mapsforge-core:${mapsforgeVersion}"
-	implementation "org.mapsforge:mapsforge-map:${mapsforgeVersion}"
-	implementation "org.mapsforge:mapsforge-map-awt:${mapsforgeVersion}"
-	implementation "org.mapsforge:mapsforge-map-reader:${mapsforgeVersion}"
-	runtimeOnly    "org.mapsforge:mapsforge-themes:${mapsforgeVersion}"
+	implementation "com.github.mapsforge.mapsforge:mapsforge-core:${mapsforgeVersion}"
+	implementation "com.github.mapsforge.mapsforge:mapsforge-map:${mapsforgeVersion}"
+	implementation "com.github.mapsforge.mapsforge:mapsforge-map-awt:${mapsforgeVersion}"
+	implementation "com.github.mapsforge.mapsforge:mapsforge-map-reader:${mapsforgeVersion}"
+	runtimeOnly    "com.github.mapsforge.mapsforge:mapsforge-themes:${mapsforgeVersion}"
 
 	implementation "org.eclipse.jetty:jetty-server:${jettyVersion}"
 	runtimeOnly    "org.eclipse.jetty.http2:http2-server:${jettyVersion}"
