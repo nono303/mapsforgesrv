@@ -84,7 +84,7 @@ runShadow {
 	doFirst {
 		jvmArgs = [
 			// https://github.com/bourgesl/marlin-renderer/releases
-			"--patch-module", "java.desktop=libs/marlin-0.9.4.8-Unsafe-OpenJDK17.jar",
+			"--patch-module", "java.desktop=libs/marlin-0.9.4.9-Unsafe-OpenJDK17.jar",
 			"-Dsun.java2d.d3d=true",
 			"-Dsun.java2d.opengl=false",
 			"-Dsun.java2d.accthreshold=0",
