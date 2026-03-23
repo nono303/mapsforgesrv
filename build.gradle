@@ -2,7 +2,7 @@ plugins {
 	id "application"
 	id "eclipse"
 	// https://github.com/johnrengelman/shadow/releases
-	id 'com.gradleup.shadow' version "9.3.2"
+	id 'com.gradleup.shadow' version "9.4.0"
 	// https://github.com/nebula-plugins/gradle-lint-plugin/releases
 	id "nebula.lint" version "21.1.3"
 }
@@ -35,7 +35,7 @@ sourceSets {
 
 dependencies {
 	def mapsforgeVersion = "+"
-	// https://mvnrepository.com/artifact/org.eclipse.jetty.http2/http2-server
+	// https://mvnrepository.com/artifact/org.eclipse.jetty.http3/http3-server
 	def jettyVersion = "11.0.26"
 	def slf4j = "+"
 
@@ -46,7 +46,7 @@ dependencies {
 	implementation "com.github.mapsforge.mapsforge:mapsforge-themes:${mapsforgeVersion}"
 
 	implementation "org.eclipse.jetty:jetty-server:${jettyVersion}"
-	runtimeOnly    "org.eclipse.jetty.http2:http2-server:${jettyVersion}"
+	runtimeOnly    "org.eclipse.jetty.http3:http3-server:${jettyVersion}"
 	implementation "org.eclipse.jetty:jetty-util:${jettyVersion}"
 	implementation "org.eclipse.jetty:jetty-xml:${jettyVersion}"
 	implementation "org.eclipse.jetty.toolchain:jetty-jakarta-servlet-api:+"
@@ -55,7 +55,7 @@ dependencies {
 	implementation "org.slf4j:jul-to-slf4j:${slf4j}"
 	implementation "org.slf4j:slf4j-api:${slf4j}"
 
-	implementation "commons-cli:commons-cli:1.9.0"
+	implementation "commons-cli:commons-cli:1.11.0"
 	implementation "org.apache.commons:commons-lang3:+"
 	implementation "com.github.marschall:memoryfilesystem:+"
 }
