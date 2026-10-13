@@ -68,7 +68,8 @@ Each configuration file can contain
 | `line-scale` | Line scaling factor > 0. to scale thickness of lines on map<br>Default: `1.` = no line thickness scaling
 | `user-scale` | Overall scaling factor > 0. to scale all map elements<br>Scales value of `text-scale` and `symbol-scale` and `line-scale`<br>Default: `1.` = no overall scaling
 | `device-scale` | Device scaling factor > 0.<br>Default: `1.` = no device scaling
-| `tile-scale` | Tile scaling factor > 0.<br>Default: `1.` = no tile scaling<br>Final tiles are `256 * tile-scale` pixels per direction. 
+| `tile-scale` | Tile scaling factor > 0.<br>Default: `1.` = no tile scaling<br>Final tiles are `256 * tile-scale` pixels per direction.
+| `neighbour-labels` | Place each tile's labels from its 3×3 neighbourhood of tiles, so a label crossing a tile border is drawn whole on both tiles, whichever server process renders them and in whatever order<br>Without it, labels crossing a border are kept consistent only with neighbours the same process has already rendered, so behind a load balancer or with several server processes a label can be cut off at the border<br>Note: Rendering reads the neighbouring tiles' labels too and is slower, mostly at low zoom levels; the `textScale` request parameter does not apply to labels<br>Default: `false` 
 
 #### Hillshading requirements:
 * Must be enabled in theme file
