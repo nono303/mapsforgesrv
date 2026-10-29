@@ -115,13 +115,18 @@ java {
 	}
 }
 
-subprojects {
+allprojects {
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
+        options.incremental = true
+        options.fork = true
+        options.deprecation = true
         options.compilerArgs.addAll([
-	    '-g:none',                  // Désactive les infos de débogage pour gagner de la vitesse (à retirer si vous devez débugger ligne par ligne)
+	    '-g:none',                  // OPTIONNEL : Désactive les infos de débogage pour gagner de la vitesse (à retirer si vous devez débugger ligne par ligne)
 	    '-XDuseDepend=true',        // Active l'analyse de dépendance interne plus rapide de javac
-	    '--release', '27'
+	    '--release', '27',
+	    '-Xlint:unchecked',
+	    '-Xlint:deprecation'
         ])
     }
 }
