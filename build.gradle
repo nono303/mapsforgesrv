@@ -57,7 +57,7 @@ dependencies {
 	implementation "org.slf4j:jul-to-slf4j:${slf4j}"
 	implementation "org.slf4j:slf4j-api:${slf4j}"
 
-	implementation "commons-cli:commons-cli:1.11.0"
+	implementation "commons-cli:commons-cli:1.9.0"
 	implementation "org.apache.commons:commons-lang3:+"
 	implementation "com.github.marschall:memoryfilesystem:+"
 }
@@ -72,6 +72,10 @@ shadowJar {
 	archiveClassifier.set("fatjar")
 	archiveVersion.set("")
 	destinationDirectory.set(file("dist"))
+	// Explicitly allow duplicates for service files so the transformer can merge them
+	filesMatching('META-INF/services/**') {
+		duplicatesStrategy = DuplicatesStrategy.INCLUDE
+	}
 
 	// https://github.com/johnrengelman/shadow/issues/341#issuecomment-445556737
 	mergeServiceFiles {
