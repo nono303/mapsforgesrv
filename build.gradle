@@ -122,8 +122,7 @@ allprojects {
         options.fork = true
         options.deprecation = true
         options.compilerArgs.addAll([
-	    '-g:none',                  // OPTIONNEL : Désactive les infos de débogage pour gagner de la vitesse (à retirer si vous devez débugger ligne par ligne)
-	    '-XDuseDepend=true',        // Active l'analyse de dépendance interne plus rapide de javac
+	    '-XDuseDepend=true',
 	    '--release', '27',
 	    '-Xlint:unchecked',
 	    '-Xlint:deprecation',
