@@ -1,9 +1,9 @@
 plugins {
 	id "application"
 	id "eclipse"
-	// https://github.com/johnrengelman/shadow/releases
+	// https://plugins.gradle.org/plugin/com.gradleup.shadow - https://github.com/johnrengelman/shadow/releases
 	id 'com.gradleup.shadow' version "9.6.1"
-	// https://github.com/nebula-plugins/gradle-lint-plugin/releases
+	// https://plugins.gradle.org/plugin/nebula.lint - https://github.com/nebula-plugins/gradle-lint-plugin/releases
 	id "nebula.lint" version "21.3.0"
 }
 
@@ -34,7 +34,7 @@ sourceSets {
 }
 
 dependencies {
-	// https://jitpack.io/#mapsforge/mapsforge/
+	// mavenlocal - https://jitpack.io/#mapsforge/mapsforge/
 	// def mapsforgeVersion = "master-SNAPSHOT"
 	def mapsforgeVersion = "0.31.0"
 	// https://mvnrepository.com/artifact/org.eclipse.jetty.http2/http2-server
@@ -126,7 +126,8 @@ allprojects {
 	    '-XDuseDepend=true',        // Active l'analyse de dépendance interne plus rapide de javac
 	    '--release', '27',
 	    '-Xlint:unchecked',
-	    '-Xlint:deprecation'
+	    '-Xlint:deprecation',
+	    '--enable-preview'
         ])
     }
 }
