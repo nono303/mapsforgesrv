@@ -135,5 +135,4 @@ allprojects {
     }
 }
 
-
 gradleLint.rules = ["all-dependency"]
